@@ -11,6 +11,8 @@ _ide_helper.php
 
 # laravel
 /storage/logs
+/storage/csv
+/storage/framework/**
 
 # npm
 node_modules/*

@@ -7,7 +7,6 @@
     </head>
 
     <body>
-        <a href="/downloads">View Export History</a>
         @if($errors->all())
             <ul>
             @foreach($errors->all() as $error)
@@ -16,7 +15,7 @@
             </ul>
         @endif
         
-        <form action="/export" method="post" id="student_form">
+        <form action="/downloads" method="post" id="download_form">
             {{ csrf_field() }}
 
             <div class="header">
@@ -28,30 +27,24 @@
                 @endif
                 <div style='margin: 10px; text-align: left'>
                     <input type="button" value="Select All" id="select_all" />
-                    <input type="submit" value="Export" id="submit" />
+                    <input type="submit" value="Download" id="submit" />
                 </div>
             </div>
 
             <div style='margin: 10px; text-align: center;'>
                 <table class="student-table">
                     <tr>
-                        <th></th>
-                        <th>Forename</th>
-                        <th>Surname</th>
-                        <th>Email</th>
-                        <th>University</th>
-                        <th>Course</th>
+                        <th>Filename</th>
+                        <th>Created</th>
+                        <th>Download</th>
                     </tr>
 
-                    @if(  count($students) > 0 )
-                    @foreach($students as $student)
+                    @if( count($downloads) > 0 )
+                    @foreach($downloads as $download)
                     <tr>
-                        <td><input type="checkbox" class="checkbox" name="studentId[]" value="{{ $student['id'] }}"></td>
-                        <td>{{ $student['firstname'] }}</td>
-                        <td>{{ $student['surname'] }}</td>
-                        <td>{{ $student['email'] }}</td>
-                        <td>{{ $student['course']['university'] }}</td>
-                        <td>{{ $student['course']['course_name'] }}</td>
+                        <td>{{ $download['download_name'] }}</td>
+                        <td>{{ $download['created_at'] }}</td>
+                        <td><a href="{{ route('export-downloadlog-item', $download['id']) }}">Download</a></td>
                     </tr>
                     @endforeach
                     @else

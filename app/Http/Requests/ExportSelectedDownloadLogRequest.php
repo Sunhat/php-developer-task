@@ -4,8 +4,15 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ExportSelected extends FormRequest
+class ExportSelectedDownloadLogRequest extends FormRequest
 {
+    public function messages()
+    {
+        return [
+            'downloadId.required' => 'Please select at least one download to export.',
+        ];
+    }
+    
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -23,14 +30,9 @@ class ExportSelected extends FormRequest
      */
     public function rules()
     {
-        $rules = [];
-
-        if (count($this->request->get('studentId')) > 0) {
-            foreach($this->request->get('studentId') as $key => $val) {
-                $rules['studentId.'.$key] = 'integer';
-            }
-        }
-
-        return $rules;
+        return [
+            'downloadId' => 'required|array|min:1',
+            'downloadId.*' => 'integer'
+        ];
     }
 }

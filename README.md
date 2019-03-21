@@ -47,3 +47,63 @@ If time allows and you want to really impress us, please consider adding the fol
 
 ### Questions
 If there are any critical issues please contact dominic.sabatini@rmpenterprise.co.uk, bruno@rmpenterprise.co.uk or ian.nisbet@rmpenterprise.co.uk.
+
+
+
+# Applicant
+
+### Note
+
+I've had quite a busy weekend, and worked on the intermittently over Sunday, and some on Monday morning/afternoon.
+I'd be happy to continue with the code test, but I thought I'd send it over now, as I think there's enough to show. Additionally, I can provide examples of work for Vue and PHP, including some other code tests
+
+### Scenarios
+1. Already done? Render the table of students
+2. Done. Export a CSV file of selected students when clicking on the export buttons
+3. Done. Give the exported CSV file a name
+4. Done. View export history
+
+### Well that was easy...
+If time allows and you want to really impress us, please consider adding the following additional functionality.
+- Partially done. TDD
+- Not done. I am aware Excel wont read files past a particular set of bytes, though. handling 200K+ students to export
+- Not done. Search the table
+- Not done. Sort the table
+- Done. download a previous export from history
+
+
+
+### How it works
+
+`abstract class App\Services\Output` is designed to build and output/save data. Perhaps naming as a `Parser` or `Generator` could be better suited.
+
+`class CSVOutput extends Output` modifies the behaviour by creating a CSV output
+
+`class StudentCSVOutput extends CSVOutput` modifies the behaviour by overriding the parent method `build()`, a method for processing the data provided. For CSVs, this means ensuring it's a flat file. For this class, it takes a `Collection` of `Student` models.
+
+**I'm not entirely satisfied with this design, as it doesn't allow the loading of existing CSVs, and could prove to be quite inflexible.**
+
+*However*, each method in the `ExportController` just needs to a couple of lines to generate a CSV for a Student, and the output for a Student is updated in one, very dry place.
+
+
+### Testing
+
+I've created some tests, although I am relatively new to testing, with some minor guidance I'm sure I could do well quite quickly, along with more time learning and researching over my Notice Period.
+
+- I ran into an issue with 5.4.11 (nice lock file).
+- Previously I've been doing tests with L5.8 and `use RefreshDatabase` I had to look at the L5.4 way of doing this. Had to create a test.sqlite db and update `phpunit.xml`? Is there a better way?
+- 
+
+
+### Other things I would do
+- Improve Output design
+- Storage::disk('local') could do with an env variable
+- Multiple downloads by Zipping CSVs
+- CSVs above 200k (multiple files?)
+- Sort/search table
+- implement remaining `ExportController` methods
+- split up `ExportController` to more specific Controllers
+
+
+### Anything else?
+Anything I've missed? Any questions? I'd appreciate feedback! Thanks.
